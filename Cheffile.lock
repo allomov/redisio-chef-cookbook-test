@@ -1,0 +1,12 @@
+SITE
+  remote: http://community.opscode.com/api/v1
+  specs:
+    chef-solo-search (0.5.1)
+    redisio (1.7.0)
+      ulimit (>= 0.1.2)
+    ulimit (0.3.2)
+
+DEPENDENCIES
+  chef-solo-search (>= 0)
+  redisio (>= 0)
+

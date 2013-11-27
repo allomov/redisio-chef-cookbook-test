@@ -1,3 +1,4 @@
 site 'http://community.opscode.com/api/v1'
 
 cookbook 'redisio'
+cookbook 'chef-solo-search'
