@@ -2,3 +2,4 @@ site 'http://community.opscode.com/api/v1'
 
 cookbook 'redisio', git: 'https://github.com/allomov/redisio.git', ref: '2.0.0_wip'
 cookbook 'chef-solo-search'
+cookbook 'simple_iptables'
