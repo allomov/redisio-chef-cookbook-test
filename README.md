@@ -14,11 +14,11 @@ knife solo data bag edit redis master             # edit config providing master
 ```
 After the editor (default system editor or specified in `$EDITOR` will be opened). You'll need to point out master's address and port in json format.
 ```json
-  {
-    "id": "master",
-    "address": "<master-address>",
-    "port": 6379
-  }
+{
+  "id": "master",
+  "address": "<master-address>",
+  "port": 6379
+}
 ```
 That's it. All is done.
 
@@ -31,3 +31,4 @@ knife solo bootstrap -i .chef/keypair.pem root@<master-address>   nodes/redis-ma
 knife solo bootstrap -i .chef/keypair.pem root@<slave-address>    nodes/redis-slave.json
 knife solo bootstrap -i .chef/keypair.pem root@<sentinel-address> nodes/redis-sentinel.json
 ```
+
