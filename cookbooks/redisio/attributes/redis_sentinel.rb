@@ -1,8 +1,7 @@
-#
 # Cookbook Name:: redisio
-# Recipe:: uninstall
+# Attribute::default
 #
-# Copyright 2013, Brian Bianco <brian.bianco@gmail.com>
+# Copyright 2013, Rackspace Hosting <ryan.cleere@rackspace.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +16,17 @@
 # limitations under the License.
 #
 
-redis = node['redisio']
+default['redisio']['sentinel_defaults'] = {
+  'user'                    => 'redis',
+  'configdir'               => '/etc/redis',
+  'job_control'             => 'initd',
+  'sentinel_port'           => 26379,
+  'monitor'                 => nil,
+  'down-after-milliseconds' => 30000,
+  'can-failover'            => 'yes',
+  'parallel-syncs'          => 1,
+  'failover-timeout'        => 900000
+}
 
-redisio_uninstall "redis-servers" do
-  servers redis['servers']
-  action :run
-end
+default['redisio']['sentinels'] = []
+

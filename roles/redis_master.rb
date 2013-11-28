@@ -9,7 +9,6 @@ default_attributes({
   'redisio' => {
     'servers' => [
       {
-        'job_control' => 'initd',
         'name' => 'master',
         'backuptype' => 'both',
         'port' => redis_master_config['port']

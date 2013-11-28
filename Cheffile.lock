@@ -1,10 +1,18 @@
 SITE
   remote: http://community.opscode.com/api/v1
   specs:
+    build-essential (1.4.2)
     chef-solo-search (0.5.1)
-    redisio (1.7.0)
-      ulimit (>= 0.1.2)
     ulimit (0.3.2)
+
+GIT
+  remote: https://github.com/allomov/redisio.git
+  ref: 2.0.0_wip
+  sha: fe2f6433cd999a0608ec4a54c8b98eaaa80e1e8c
+  specs:
+    redisio (2.1.1)
+      build-essential (>= 0.0.0)
+      ulimit (>= 0.1.2)
 
 DEPENDENCIES
   chef-solo-search (>= 0)

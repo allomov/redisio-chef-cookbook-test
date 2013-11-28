@@ -17,20 +17,10 @@
 # limitations under the License.
 #
 
-case node.platform
-when 'debian','ubuntu'
-  %w[tar build-essential].each do |pkg|
-    package pkg do
-      action :install
-    end
-  end
-when 'redhat','centos','fedora','scientific','suse','amazon'
-  %w[tar make automake gcc].each do |pkg|
-    package pkg do
-      action :install      
-    end
-  end  
+include_recipe "redisio::_install_prereqs"
+include_recipe "build-essential::default"
+
+unless node['redisio']['bypass_setup']
+  include_recipe "redisio::install"
+  include_recipe "redisio::configure"
 end
-
-
-
