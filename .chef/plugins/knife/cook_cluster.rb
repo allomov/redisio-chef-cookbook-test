@@ -11,17 +11,18 @@ module Plugins
       end
 
       option :name,    
-        :short => "-n VALUE",
-        :long => "--name VALUE",
-        :description => "Cluster name.",
+        :short => "-j VALUE",
+        :long => "--json VALUE",
+        :description => "json cluster config",
         :boolean => false,
-        :default => 'redis'
+        :default => 'cluster.json'
 
       def run
 
         @name = name_args.first || config[:name]
 
         puts "cluster name: " + @name
+        puts "curre dir: " + File.expand_path(__FILE__)
         
         @config = Chef::DataBagItem.load('cluster', @name)
 
