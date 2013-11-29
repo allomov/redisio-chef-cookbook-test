@@ -8,9 +8,10 @@ module Plugins
       deps do
         # require 'chef/dependency'
         # require 'chef/data_bag'
+        require 'json'
       end
 
-      option :name,    
+      option :json,    
         :short => "-j VALUE",
         :long => "--json VALUE",
         :description => "json cluster config",
@@ -19,26 +20,36 @@ module Plugins
 
       def run
 
-        @name = name_args.first || config[:name]
+        @json_config_file = name_args.first || config[:json]
+        @json_config = JSON.parse(File.read(@json_config_file))
 
-        puts "cluster name: " + @name
-        puts "curre dir: " + File.expand_path(__FILE__)
+        puts "@json_config: " + @json_config.inspect
+        puts "curre dir: " + File.expand_path('.', )
         
-        @config = Chef::DataBagItem.load('cluster', @name)
+        validate_config!(@json_config)
 
-        puts "cluster config: " + @config.inspect
+        master   = @json_config['master']
+        slaves   = @json_config['slaves']
+        sentinel = @json_config['sentinel']
+        kepypair = @json_config['keypair']
 
-        validate_config!
 
-        @master   = @config['master']
-        @slaves   = @config['slaves']
-        @sentinel = @config['sentinel']
+        Chef::Log.info("Deploying Redis master at #{master['address']}.")
+        puts "knife solo bootstrap -i #{kepypair} root@#{master['address']} nodes/redis-master.json"
+        exec "knife solo bootstrap -i #{kepypair} root@#{master['address']} nodes/redis-master.json"
 
+        slaves.each do |slave_address|
+          Chef::Log.info("Deploying Redis slave at #{slave_address}.")
+          exec "knife solo bootstrap -i #{kepypair} root@#{slave_address} nodes/redis-slave.json"
+        end
+
+        Chef::Log.info("Deploying Redis sentinel at #{sentinel}.")
+        exec "knife solo bootstrap -i #{kepypair} root@#{sentinel} nodes/redis-sentinel.json" 
       end
 
-      def validate_config!
-        validate_keys! %w(master slaves sentinel), @config
-        validate_keys! %w(address port), @config['master']
+      def validate_config!(config)
+        validate_keys! %w(master slaves sentinel), config
+        validate_keys! %w(address port), config['master']
       end
 
       def validate_keys!(required_keys, config)

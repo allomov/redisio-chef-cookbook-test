@@ -32,3 +32,7 @@ knife solo bootstrap -i .chef/keypair.pem root@<slave-address>    nodes/redis-sl
 knife solo bootstrap -i .chef/keypair.pem root@<sentinel-address> nodes/redis-sentinel.json
 ```
 
+One command deploy
+===
+
+You can use `knife cook cluster` command. By default it uses cluster config from (cluster.json)[https://github.com/Altoros/pf-redis-cluster/blob/master/cluster.json] file, but config location can be specified with `-j` option.
