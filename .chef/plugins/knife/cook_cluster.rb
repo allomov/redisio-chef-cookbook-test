@@ -23,28 +23,20 @@ module Plugins
         @json_config_file = name_args.first || config[:json]
         @json_config = JSON.parse(File.read(@json_config_file))
 
-        puts "@json_config: " + @json_config.inspect
-        puts "curre dir: " + File.expand_path('.', )
-        
         validate_config!(@json_config)
 
-        master   = @json_config['master']
-        slaves   = @json_config['slaves']
-        sentinel = @json_config['sentinel']
-        kepypair = @json_config['keypair']
+        @master   = @json_config['master']
+        @slaves   = @json_config['slaves']
+        @sentinel = @json_config['sentinel']
+        @kepypair = @json_config['keypair']
+        @user = 'root'
 
-
-        Chef::Log.info("Deploying Redis master at #{master['address']}.")
-        puts "knife solo bootstrap -i #{kepypair} root@#{master['address']} nodes/redis-master.json"
-        exec "knife solo bootstrap -i #{kepypair} root@#{master['address']} nodes/redis-master.json"
-
-        slaves.each do |slave_address|
-          Chef::Log.info("Deploying Redis slave at #{slave_address}.")
-          exec "knife solo bootstrap -i #{kepypair} root@#{slave_address} nodes/redis-slave.json"
+        knife_solo_bootstrap(@master['address'], 'nodes/redis-master.json')
+        @slaves.each do |slave_address|
+          knife_solo_bootstrap(slave_address, 'nodes/redis-slave.json')
         end
+        knife_solo_bootstrap(@sentinel, 'nodes/redis-sentinel.json')
 
-        Chef::Log.info("Deploying Redis sentinel at #{sentinel}.")
-        exec "knife solo bootstrap -i #{kepypair} root@#{sentinel} nodes/redis-sentinel.json" 
       end
 
       def validate_config!(config)
@@ -56,6 +48,17 @@ module Plugins
         keys_checks = required_keys.map { |key| config.key?(key) }
         raise "Your config doesn't have required fields." if !keys_checks.all?        
       end
+
+      def safe_exec(command)
+        is_success = system(command)
+        raise "#{command} exited with #{code} status." unless is_success
+      end
+
+      def knife_solo_bootstrap(address, node_config)
+        Chef::Log.info("Deploying Redis at #{address} with #{node_config} config.")
+        safe_exec("knife solo bootstrap -i #{@kepypair} #{@user}@#{address} #{node_config}" )
+      end
+
     end
 
 
