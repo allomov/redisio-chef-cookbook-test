@@ -1,0 +1,16 @@
+{
+  "name": "data_bag_item_redis_master",
+  "json_class": "Chef::DataBagItem",
+  "chef_type": "data_bag_item",
+  "data_bag": "redis",
+  "raw_data": {
+    "id": "master",
+    "address": {
+      "address": "ec2-184-73-126-236.compute-1.amazonaws.com",
+      "port": 6379
+    },
+    "port": 6379,
+    "chef_type": "data_bag_item",
+    "data_bag": "redis"
+  }
+}

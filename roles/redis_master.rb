@@ -1,16 +1,7 @@
 name 'redis-master'
 description 'Redis Master Node'
 
-run_list  'simple_iptables',
-          'recipe[redisio]',           # prepare environment
-          'recipe[redisio::install]',  # install redis
-          'recipe[redisio::enable]'    # run redis services
-
-# Allow SSH
-simple_iptables_rule "ssh" do
-  rule "--proto tcp --dport 22"
-  jump "ACCEPT"
-end
+run_list  'recipe[redis-cluster]'
 
 redis_master_config = Chef::DataBagItem.load('redis', 'master')
 
@@ -25,4 +16,3 @@ default_attributes({
     ]
   }
 })
-

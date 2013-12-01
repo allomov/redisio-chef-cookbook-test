@@ -46,4 +46,4 @@ Simply run
 knife solo bootstrap -i .chef/keypair.pem root@<chef-server-address> nodes/chef-server.json
 ```
 You can also specify `chef-server` in cluster set up, but it's optinal thing.
-
+After you installed chef server

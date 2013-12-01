@@ -1,11 +1,12 @@
 name 'redis-sentinel'
 description 'Redis Sentinel Node'
 
-run_list 'recipe[redisio]',
-         'recipe[redisio::install]',
-         "recipe[redisio::configure]",
-         'recipe[redisio::sentinel]',          # prepare environment, install redis sentinel
-         'recipe[redisio::sentinel_enable]'    # run redis sentinel
+run_list  'recipe[redis-cluster::enable_ports]',
+          'recipe[redisio]',
+          'recipe[redisio::install]',
+          'recipe[redisio::configure]',
+          'recipe[redisio::sentinel]',          # prepare environment, install redis sentinel
+          'recipe[redisio::sentinel_enable]'    # run redis sentinel
 
 redis_master_config = Chef::DataBagItem.load('redis', 'master')
 

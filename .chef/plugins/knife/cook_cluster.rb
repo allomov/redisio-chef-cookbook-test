@@ -8,7 +8,10 @@ module Plugins
       deps do
         # require 'chef/dependency'
         # require 'chef/data_bag'
+        Chef::Config[:solo] = true
         require 'json'
+        require 'chef/data_bag'
+        require 'knife-solo_data_bag'
       end
 
       option :json,    
@@ -20,6 +23,7 @@ module Plugins
 
       def run
 
+        # load config
         @json_config_file = name_args.first || config[:json]
         @json_config = JSON.parse(File.read(@json_config_file))
 
@@ -32,6 +36,12 @@ module Plugins
         @chef_server = @json_config['chef-server']
         @user = 'root'
 
+        # save data bag
+        redis_master_config = Chef::DataBagItem.load('redis', 'master')
+        redis_master_config['address'] = @master
+        redis_master_config.save
+
+        # deploy cluster
         knife_solo_bootstrap(@master['address'], 'nodes/redis-master.json')
         @slaves.each do |slave_address|
           knife_solo_bootstrap(slave_address, 'nodes/redis-slave.json')
@@ -52,14 +62,14 @@ module Plugins
         unless keys_checks.all?
           raise "Your config doesn't have required fields.\n" +
                 "expected keys #{required_keys.inspect}\n" +
-                "got #{config.keys.inspect}" +
+                "got #{config.keys.inspect}\n" +
                 "in #{config.inspect}"
         end
       end
 
       def safe_exec(command)
         is_success = system(command)
-        raise "#{command} exited with #{code} status." unless is_success
+        raise "#{command} exited with exception." unless is_success
       end
 
       def knife_solo_bootstrap(address, node_config)
