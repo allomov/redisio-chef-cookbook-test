@@ -1,7 +1,8 @@
 name 'redis-sentinel'
 description 'Redis Sentinel Node'
 
-run_list  'recipe[redis-cluster::enable_ports]',
+run_list  'recipe[simple_iptables]',
+          'recipe[redis-cluster::enable_ports]',
           'recipe[redisio]',
           'recipe[redisio::install]',
           'recipe[redisio::configure]',

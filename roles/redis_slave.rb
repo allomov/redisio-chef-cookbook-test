@@ -1,9 +1,11 @@
 name 'redis-slave'
 description 'Redis Slave Node'
 
-run_list 'recipe[redisio]',           # prepare environment
-         'recipe[redisio::install]',  # install redis
-         'recipe[redisio::enable]'    # run redis
+run_list 'recipe[simple_iptables]',
+         'recipe[redis-cluster::enable_ports]', 
+         'recipe[redisio]', 
+         'recipe[redisio::install]', 
+         'recipe[redisio::enable]'
 
 redis_master_config = Chef::DataBagItem.load('redis', 'master')
 

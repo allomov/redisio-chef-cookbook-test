@@ -38,7 +38,7 @@ module Plugins
 
         # save data bag
         redis_master_config = Chef::DataBagItem.load('redis', 'master')
-        redis_master_config['address'] = @master
+        redis_master_config['address'] = @master['address']
         redis_master_config.save
 
         # deploy cluster
@@ -78,7 +78,6 @@ module Plugins
       end
 
     end
-
 
 
   end
