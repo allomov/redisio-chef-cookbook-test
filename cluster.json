@@ -1,6 +1,7 @@
 {
   "user": "ec2-user",
   "keypair": ".chef/mr-lomov.pem",
+  // "chef-server": "ec2-184-73-126-236.compute-1.amazonaws.com",
   "master": {
     "address": "ec2-184-73-126-236.compute-1.amazonaws.com",
     "port": 6379

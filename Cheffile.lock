@@ -2,6 +2,7 @@ SITE
   remote: http://community.opscode.com/api/v1
   specs:
     build-essential (1.4.2)
+    chef-server (2.0.0)
     chef-solo-search (0.5.1)
     simple_iptables (0.3.0)
     ulimit (0.3.2)
@@ -16,6 +17,7 @@ GIT
       ulimit (>= 0.1.2)
 
 DEPENDENCIES
+  chef-server (>= 0)
   chef-solo-search (>= 0)
   redisio (>= 0)
   simple_iptables (>= 0)

@@ -29,6 +29,7 @@ module Plugins
         @slaves   = @json_config['slaves']
         @sentinel = @json_config['sentinel']
         @kepypair = @json_config['keypair']
+        @chef_server = @json_config['chef-server']
         @user = 'root'
 
         knife_solo_bootstrap(@master['address'], 'nodes/redis-master.json')
@@ -36,6 +37,8 @@ module Plugins
           knife_solo_bootstrap(slave_address, 'nodes/redis-slave.json')
         end
         knife_solo_bootstrap(@sentinel, 'nodes/redis-sentinel.json')
+
+        knife_solo_bootstrap(@chef_server, 'nodes/chef-server.json') if @chef_server
 
       end
 
@@ -46,7 +49,12 @@ module Plugins
 
       def validate_keys!(required_keys, config)
         keys_checks = required_keys.map { |key| config.key?(key) }
-        raise "Your config doesn't have required fields." if !keys_checks.all?        
+        unless keys_checks.all?
+          raise "Your config doesn't have required fields.\n" +
+                "expected keys #{required_keys.inspect}\n" +
+                "got #{config.keys.inspect}" +
+                "in #{config.inspect}"
+        end
       end
 
       def safe_exec(command)

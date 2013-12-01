@@ -36,3 +36,14 @@ One command deploy
 ===
 
 You can use `knife cook cluster` command. By default it uses cluster config from (cluster.json)[https://github.com/Altoros/pf-redis-cluster/blob/master/cluster.json] file, but config location can be specified with `-j` option.
+
+
+Install Chef Server 
+===
+
+Simply run 
+```
+knife solo bootstrap -i .chef/keypair.pem root@<chef-server-address> nodes/chef-server.json
+```
+You can also specify `chef-server` in cluster set up, but it's optinal thing.
+
