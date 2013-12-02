@@ -3,12 +3,12 @@
   "keypair": ".chef/mr-lomov.pem",
   // "chef-server": "ec2-184-73-126-236.compute-1.amazonaws.com",
   "master": {
-    "address": "ec2-184-73-126-236.compute-1.amazonaws.com",
+    "address": "ec2-54-196-36-63.compute-1.amazonaws.com",
     "port": 6379
   }, 
   "slaves": [
-    "ec2-54-234-110-5.compute-1.amazonaws.com",
-    "ec2-54-227-176-185.compute-1.amazonaws.com"
+    "ec2-54-196-36-63.compute-1.amazonaws.com",
+    "ec2-54-196-36-63.compute-1.amazonaws.com"
   ],
   "sentinel": "ec2-54-196-91-18.compute-1.amazonaws.com"
 }

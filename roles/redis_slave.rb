@@ -1,9 +1,9 @@
 name 'redis-slave'
 description 'Redis Slave Node'
 
-run_list 'recipe[simple_iptables]',
-         'recipe[redis-cluster::enable_ports]', 
-         'recipe[redisio]', 
+# run_list 'recipe[simple_iptables]',
+# run_list 'recipe[redis-cluster::enable_ports]', 
+run_list 'recipe[redisio]', 
          'recipe[redisio::install]', 
          'recipe[redisio::enable]'
 

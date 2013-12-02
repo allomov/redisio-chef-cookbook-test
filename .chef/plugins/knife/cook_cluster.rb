@@ -46,7 +46,7 @@ module Plugins
         @slaves.each do |slave_address|
           knife_solo_bootstrap(slave_address, 'nodes/redis-slave.json')
         end
-        knife_solo_bootstrap(@sentinel, 'nodes/redis-sentinel.json')
+        knife_solo_bootstrap(@sentinel, 'nodes/redis-sentinel.json') if @sentinel
 
         knife_solo_bootstrap(@chef_server, 'nodes/chef-server.json') if @chef_server
 
@@ -74,7 +74,12 @@ module Plugins
 
       def knife_solo_bootstrap(address, node_config)
         Chef::Log.info("Deploying Redis at #{address} with #{node_config} config.")
-        safe_exec("knife solo bootstrap -i #{@kepypair} #{@user}@#{address} #{node_config}" )
+        # safe_exec("knife solo bootstrap -i #{@kepypair} #{@user}@#{address} #{node_config}" )
+        knife_bootstrap(address, node_config, solo: true)
+      end
+
+      def knife_bootstrap(address, node_config, options = {})
+        safe_exec("knife#{options[:solo] ? ' solo' : ''} bootstrap -i #{@kepypair} #{@user}@#{address} #{node_config}" )
       end
 
     end
