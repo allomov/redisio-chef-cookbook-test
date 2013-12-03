@@ -1,14 +1,16 @@
 {
   "user": "ec2-user",
   "keypair": ".chef/mr-lomov.pem",
+  "mode": "cache",    // possible values: cache, transient, acid
+  "save": ["900 1", "300 10", "60 10000"],
   // "chef-server": "ec2-184-73-126-236.compute-1.amazonaws.com",
   "master": {
-    "address": "ec2-54-196-36-63.compute-1.amazonaws.com",
+    "address": "ec2-174-129-106-103.compute-1.amazonaws.com",
     "port": 6379
   }, 
   "slaves": [
-    "ec2-54-196-36-63.compute-1.amazonaws.com",
-    "ec2-54-196-36-63.compute-1.amazonaws.com"
+    "ec2-54-205-24-36.compute-1.amazonaws.com",
+    "ec2-54-205-24-36.compute-1.amazonaws.com"
   ],
-  "sentinel": "ec2-54-196-91-18.compute-1.amazonaws.com"
+  "sentinel": "ec2-174-129-106-103.compute-1.amazonaws.com"
 }
