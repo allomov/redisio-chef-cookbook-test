@@ -1,5 +1,7 @@
-PATH
-  remote: /Users/allomov/work/github/knife-solo_data_bag
+GIT
+  remote: git://github.com/allomov/knife-solo_data_bag.git
+  revision: a347c51281f92f44b73d6e85ce15bf3bbb314045
+  branch: data-bag-save
   specs:
     knife-solo_data_bag (0.4.0)
 
